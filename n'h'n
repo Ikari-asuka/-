@@ -1,0 +1,26 @@
+{
+  description = "My machines flakes";
+  inputs = {
+    srvos.url = "github:nix-community/srvos";
+    # Use the version of nixpkgs that has been tested to work with SrvOS
+    # Alternatively we also support the latest nixos release and unstable
+    nixpkgs.follows = "srvos/nixpkgs";
+  };
+  outputs = { self, nixpkgs, srvos }: {
+    nixosConfigurations.myHost = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        # This machine is a server
+        srvos.nixosModules.server
+        # Deployed on the AMD Hetzner hardware
+        srvos.nixosModules.hardware-hetzner-amd
+        # Configured with extra terminfos
+        srvos.nixosModules.mixins-terminfo
+        # And designed to run the GitHub Actions runners
+        srvos.nixosModules.roles-github-actions-runner
+        # Finally add your configuration here
+        ./myHost.nix
+      ];
+    };
+  };
+}
