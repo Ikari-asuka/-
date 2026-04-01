@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+// 自定义求和函数：接收两个数字，返回它们的和
+int add(int num1, int num2) {
+    return num1 + num2;  // 计算并返回结果
+}
+
+int main() {
+    int a, b, result;
+
+    // 1. 输入两个数字
+    printf("请输入第一个整数：");
+    scanf("%d", &a);
+
+    printf("请输入第二个整数：");
+    scanf("%d", &b);
+
+    // 2. 调用求和函数
+    result = add(a, b);
+
+    // 3. 输出结果
+    printf("两数之和 = %d\n", result);
+
+    return 0;
+}
