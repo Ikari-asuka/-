@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+// 除法函数：返回商，同时处理错误
+double divide(double num1, double num2) {
+    return num1 / num2;
+}
+
+int main() {
+    double a, b, result;
+
+    // 输入两个数字
+    printf("请输入第一个数字：");
+    scanf("%lf", &a);
+
+    printf("请输入第二个数字：");
+    scanf("%lf", &b);
+
+    // ====================== 错误处理：除数不能为 0
+    if (b == 0) {
+        printf("错误：除数不能为 0，无法计算！\n");
+        return 1; // 程序异常退出
+    }
+
+    // 调用函数计算商
+    result = divide(a, b);
+
+    // 输出结果（保留 2 位小数）
+    printf("两数的商 = %.2lf\n", result);
+
+    return 0;
+}
