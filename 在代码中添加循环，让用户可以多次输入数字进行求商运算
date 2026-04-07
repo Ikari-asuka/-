@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+// 除法函数：计算两个数的商
+double divide(double num1, double num2) {
+    return num1 / num2;
+}
+
+int main() {
+    double a, b, result;
+    char choice;  // 用来接收用户是否继续的选择
+
+    // 程序标题
+    printf("===== 循环两数求商程序 =====\n");
+    printf("支持小数计算，输入 0 除数会自动提示错误\n");
+    printf("输入 q 退出程序，输入其他键继续计算\n\n");
+
+    // ========== 无限循环：可以一直计算 ==========
+    while (1) {
+        // 提示输入
+        printf("\n------------------------\n");
+        printf("请输入【被除数】：");
+        scanf("%lf", &a);
+
+        printf("请输入【除数】：");
+        scanf("%lf", &b);
+
+        // 错误处理：除数不能为 0
+        if (b == 0) {
+            printf("【错误】除数不能为 0，请重新输入！\n");
+            continue;  // 跳过本次，直接进入下一轮循环
+        }
+
+        // 调用函数计算
+        result = divide(a, b);
+
+        // 输出结果
+        printf("\n===== 计算结果 =====\n");
+        printf("%.2lf ÷ %.2lf = %.2lf\n", a, b, result);
+
+        // ========== 询问用户是否继续 ==========
+        printf("\n输入 q 退出，输入其他键继续：");
+        scanf(" %c", &choice);  // 前面加空格，避免读取换行符
+
+        // 判断：输入 q 就退出循环
+        if (choice == 'q' || choice == 'Q') {
+            printf("\n程序已退出，感谢使用！\n");
+            break;
+        }
+    }
+
+    return 0;
+}
