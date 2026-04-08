@@ -1,0 +1,60 @@
+#include <stdio.h>
+
+// 除法函数
+double divide(double num1, double num2) {
+    return num1 / num2;
+}
+
+int main() {
+    double a, b, result;
+    char choice;
+    int check;  // 用来检查输入是否合法
+
+    // 标题提示
+    printf("===== 安全求商计算器（最终版）=====\n");
+    printf("支持小数、自动验证输入、防崩溃、可循环计算\n\n");
+
+    // 无限循环
+    while (1) {
+        printf("\n------------------------\n");
+
+        // ========== 验证第一个数字输入 ==========
+        printf("请输入【被除数】：");
+        check = scanf("%lf", &a);
+        if (check != 1) {  // 如果不是数字
+            printf("【输入错误】请输入有效的数字！\n");
+            // 清空输入缓冲区
+            while (getchar() != '\n');
+            continue;
+        }
+
+        // ========== 验证第二个数字输入 ==========
+        printf("请输入【除数】：");
+        check = scanf("%lf", &b);
+        if (check != 1) {  // 如果不是数字
+            printf("【输入错误】请输入有效的数字！\n");
+            while (getchar() != '\n');
+            continue;
+        }
+
+        // ========== 验证除数不能为 0 ==========
+        if (b == 0) {
+            printf("【错误】除数不能为 0，请重新输入！\n");
+            continue;
+        }
+
+        // 计算并输出
+        result = divide(a, b);
+        printf("\n===== 计算结果 =====\n");
+        printf("%.2lf ÷ %.2lf = %.2lf\n", a, b, result);
+
+        // ========== 退出选项 ==========
+        printf("\n输入 q 退出，其他键继续：");
+        scanf(" %c", &choice);
+        if (choice == 'q' || choice == 'Q') {
+            printf("\n程序已安全退出！\n");
+            break;
+        }
+    }
+    return 0;
+}
