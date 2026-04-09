@@ -1,0 +1,51 @@
+import random
+
+def play_one_round() -> list[int]:
+    """单局猜数字游戏，返回猜测历史"""
+    target = random.randint(1, 100)
+    history = []
+
+    print("\n===== 新一局开始 =====")
+    print("我已经想好了 1~100 之间的一个数字")
+
+    while True:
+        user_input = input("请输入数字（或 quit 退出）：").strip()
+
+        # 退出
+        if user_input.lower() == "quit":
+            print("游戏退出")
+            return None
+
+        # 输入校验
+        if not user_input.isdigit():
+            print("输入无效，请输入整数")
+            continue
+
+        guess = int(user_input)
+        history.append(guess)
+
+        if guess > target:
+            print("太大了")
+        elif guess < target:
+            print("太小了")
+        else:
+            print(f"\n恭喜猜对！答案是 {target}")
+            print(f"共猜 {len(history)} 次")
+            print(f"猜测历史：{history}")
+            return history
+
+def main():
+    print("===== 猜数字游戏（优化版） =====")
+    while True:
+        history = play_one_round()
+        if history is None:
+            break
+
+        # 再来一局
+        again = input("\n再来一局？(y/n)：").strip().lower()
+        if again != "y":
+            print("游戏结束")
+            break
+
+if __name__ == "__main__":
+    main()
