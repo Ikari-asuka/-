@@ -1,0 +1,56 @@
+import random
+
+def guess_number_game():
+    print("=" * 40)
+    print("        猜数字游戏（带历史记录）")
+    print("=" * 40)
+    print("游戏规则：")
+    print("1. 系统随机生成 1~100 的数字")
+    print("2. 输入数字猜测，系统提示大小")
+    print("3. 输入 quit 退出游戏")
+    print("4. 每局结束会显示你的猜测历史\n")
+
+    while True:
+        # 每局重新生成数字和清空历史记录
+        secret_num = random.randint(1, 100)
+        history = []  # 用来保存历史猜测
+        count = 0
+
+        print("\n======== 新游戏开始！========")
+        print("已生成 1~100 之间的随机数，开始猜吧！")
+
+        while True:
+            user_input = input("\n请输入你猜的数字：")
+
+            # 退出游戏
+            if user_input.lower() == "quit":
+                print("\n游戏结束！感谢游玩！")
+                return
+
+            # 检查是否是有效数字
+            if not user_input.isdigit():
+                print("❌ 输入无效，请输入整数！")
+                continue
+
+            # 转换并记录
+            guess = int(user_input)
+            count += 1
+            history.append(guess)  # 加入历史记录
+
+            # 判断大小
+            if guess > secret_num:
+                print("⬆️ 太大了！")
+            elif guess < secret_num:
+                print("⬇️ 太小了！")
+            else:
+                # 猜对了，显示结果
+                print("\n🎉 恭喜你猜对了！")
+                print(f"✅ 正确答案：{secret_num}")
+                print(f"🔢 猜测次数：{count} 次")
+                print(f"📜 你的猜测历史：{history}")
+                print("=" * 40)
+                break  # 结束本局，开始下一局
+
+# 启动游戏
+if __name__ == "__main__":
+    guess_number_game()
