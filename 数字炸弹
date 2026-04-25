@@ -1,0 +1,41 @@
+import random
+
+def bomb_game():
+    print("===== 数字炸弹小游戏 =====")
+    min_num = 1
+    max_num = 100
+    # 随机生成炸弹数字
+    bomb = random.randint(min_num, max_num)
+    print(f"游戏开始！范围：{min_num} ~ {max_num}")
+    print("不要踩到炸弹数字！\n")
+
+    while True:
+        # 输入校验
+        try:
+            player_num = int(input("请输入一个数字："))
+        except ValueError:
+            print("❌ 请输入合法整数！")
+            continue
+
+        # 判断是否超出当前范围
+        if player_num <= min_num or player_num >= max_num:
+            print(f"❌ 请输入 {min_num+1} ~ {max_num-1} 之间的数字！")
+            continue
+
+        # 踩到炸弹，游戏结束
+        if player_num == bomb:
+            print(f"\n💥 踩到炸弹了！游戏结束")
+            print(f"炸弹数字就是：{bomb}")
+            break
+        # 猜的数字比炸弹小，更新左边界
+        elif player_num < bomb:
+            min_num = player_num
+            print(f"✅ 安全！当前范围：{min_num} ~ {max_num}")
+        # 猜的数字比炸弹大，更新右边界
+        else:
+            max_num = player_num
+            print(f"✅ 安全！当前范围：{min_num} ~ {max_num}")
+
+# 运行游戏
+if __name__ == "__main__":
+    bomb_game()
