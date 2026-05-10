@@ -1,0 +1,121 @@
+import random
+import time
+
+# 游戏欢迎界面
+def print_slow(text, delay=0.04):
+    """慢慢打印文字，更有游戏感"""
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print()
+
+# 玩家类
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.hp = 100
+        self.attack = 15
+        self.defense = 5
+        self.level = 1
+        self.exp = 0
+        self.gold = 20
+
+    def show_status(self):
+        print(f"\n===== {self.name} 状态 =====")
+        print(f"等级: {self.level}")
+        print(f"生命值: {self.hp}")
+        print(f"攻击: {self.attack}")
+        print(f"防御: {self.defense}")
+        print(f"金币: {self.gold}")
+        print(f"经验: {self.exp}/{self.level*20}")
+        print("==========================\n")
+
+    def level_up(self):
+        need_exp = self.level * 20
+        if self.exp >= need_exp:
+            self.level += 1
+            self.exp -= need_exp
+            self.hp += 20
+            self.attack += 4
+            self.defense += 2
+            print_slow(f"\n🎉 恭喜你升级了！现在是 {self.level} 级！")
+            self.show_status()
+
+# 敌人类
+class Enemy:
+    def __init__(self):
+        types = ["哥布林", "野狼", "骷髅兵", "小恶魔"]
+        self.name = random.choice(types)
+        self.hp = 40 + random.randint(0, 30)
+        self.attack = 8 + random.randint(0, 7)
+        self.gold_drop = random.randint(5, 15)
+        self.exp_drop = random.randint(8, 18)
+
+# 游戏主逻辑
+def game():
+    print_slow("===== 欢迎来到文字冒险世界 =====")
+    name = input("请输入你的名字：")
+    player = Player(name)
+    print_slow(f"\n你好，{player.name}！你的冒险开始了！")
+    player.show_status()
+
+    while True:
+        print("\n1. 去野外冒险")
+        print("2. 查看状态")
+        print("3. 退出游戏")
+        choice = input("请选择操作：")
+
+        if choice == "1":
+            # 遭遇敌人
+            enemy = Enemy()
+            print_slow(f"\n⚠️ 突然出现了一只 {enemy.name}！")
+
+            # 战斗循环
+            while enemy.hp > 0 and player.hp > 0:
+                print(f"\n你的HP：{player.hp}  |  {enemy.name} HP：{enemy.hp}")
+                action = input("1. 攻击  2. 逃跑：")
+
+                if action == "1":
+                    # 玩家攻击
+                    damage = max(1, player.attack - enemy.hp // 10)
+                    enemy.hp -= damage
+                    print_slow(f"你对 {enemy.name} 造成了 {damage} 点伤害！")
+
+                    # 敌人反击
+                    if enemy.hp > 0:
+                        enemy_damage = max(1, enemy.attack - player.defense)
+                        player.hp -= enemy_damage
+                        print_slow(f"{enemy.name} 反击，造成 {enemy_damage} 点伤害！")
+
+                elif action == "2":
+                    print_slow("你成功逃跑了！")
+                    break
+
+                else:
+                    print("输入错误，请重新选择！")
+
+            # 战斗结束
+            if enemy.hp <= 0:
+                print_slow(f"\n🏆 你击败了 {enemy.name}！")
+                player.gold += enemy.gold_drop
+                player.exp += enemy.exp_drop
+                print_slow(f"获得了 {enemy.gold_drop} 金币 和 {enemy.exp_drop} 点经验！")
+                player.level_up()
+
+            if player.hp <= 0:
+                print_slow("\n💀 你被击败了...游戏结束")
+                break
+
+        elif choice == "2":
+            player.show_status()
+
+        elif choice == "3":
+            print_slow("\n感谢游玩，下次再见！")
+            break
+
+        else:
+            print("输入错误，请重新选择！")
+
+# 启动游戏
+if __name__ == "__main__":
+    game()
